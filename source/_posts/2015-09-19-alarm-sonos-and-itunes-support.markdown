@@ -1,16 +1,14 @@
 ---
-layout: post
 title: "Alarms, Sonos and iTunes now supported"
 description: "Home Assistant 0.7.3 has been released with support for Sonos, iTunes and improved ."
 date: 2015-09-19 21:47:00 0000
 date_formatted: "September 19, 2015"
 author: Paulus Schoutsen
 author_twitter: balloob
-comments: true
 categories: Release-Notes
 ---
 
-It's like someone opened a can of rock solid developers and emptied it above our [chat channel](https://gitter.im/balloob/home-assistant) because it exploded with great conversations and solid contributions. Featured in release 0.7.3: Sonos, iTunes, Alarm component and Automation upgrade.
+It's like someone opened a can of rock solid developers and emptied it above our [chat channel](https://discord.gg/c5DvZ4e) because it exploded with great conversations and solid contributions. Featured in release 0.7.3: Sonos, iTunes, Alarm component and Automation upgrade.
 
 See [GitHub](https://github.com/home-assistant/home-assistant/releases/tag/0.7.3) for more detailed release notes.
 
@@ -39,24 +37,25 @@ Automation has gotten a lot of love. It now supports conditions, multiple trigge
 ```yaml
 # Example of entry in configuration.yaml
 automation:
-  alias: Light on in the evening
+  alias: "Light on in the evening"
   trigger:
     - platform: sun
       event: sunset
       offset: "-01:00:00"
     - platform: state
-      entity_id: group.all_devices
+      entity_id: all
       state: home
   condition:
     - platform: state
-      entity_id: group.all_devices
+      entity_id: all
       state: home
     - platform: time
       after: "16:00:00"
       before: "23:00:00"
   action:
     service: homeassistant.turn_on
-    entity_id: group.living_room
+    target:
+      entity_id: group.living_room
 ```
 
 __Verisure Alarms__

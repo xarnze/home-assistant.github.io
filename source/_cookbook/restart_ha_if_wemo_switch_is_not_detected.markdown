@@ -1,18 +1,14 @@
 ---
-layout: page
 title: "Restart Home Assistant if Wemo Switch is not detected"
 description: "Restart Home Assistant if Wemo Switch is not detected."
-date: 2016-01-29 08:00
-sidebar: true
-comments: false
-sharing: true
-footer: true
 ha_category: Automation Examples
 ---
 
-### {% linkable_title Restart Home Assistant %}
+### Restart Home Assistant
 
-This configuration example is restarting Home Assistant if a [WeMo](/components/switch.wemo/) switch is not detected. An additional MQTT switch is present for stopping Home Assistant and can be triggered by [IFTTT](/components/ifttt/). The running batch script will automatically restart Home Assistant if the process isn't found anymore.
+This configuration example is restarting Home Assistant if a [WeMo](/integrations/wemo) switch is not detected. An additional MQTT switch is present for stopping Home Assistant and can be triggered by [IFTTT](/integrations/ifttt/). The running batch script will automatically restart Home Assistant if the process isn't found anymore.
+
+{% raw %}
 
 ```yaml
 mqtt:
@@ -35,9 +31,11 @@ notify:
   - platform: pushbullet
     api_key: ***
     name: pushbullet
-  
+
+wemo:
+  discovery: true
+
 switch:
-  - platform: wemo
   - platform: mqtt
     state_topic: "home/killhass"
     command_topic: "home/killhass"
@@ -55,9 +53,9 @@ script:
           minutes: 15
       - service: notify.pushbullet
         data:
-          message: 'WeMo not found, restarting HA'
+          message: "WeMo not found, restarting HA"
       - service: switch.turn_on
-        data:
+        target:
           entity_id: switch.killhass
   
 automation:
@@ -65,34 +63,37 @@ automation:
   trigger:
     platform: state
     entity_id: device_tracker.wemo
-    from: 'not_home'
-    to: 'home'
+    from: "not_home"
+    to: "home"
   condition:
     - condition: template
-      value_template: {% raw %}'{% if states.switch.wemo %}false{% else %}true{% endif %}'{% endraw %}
+      value_template: '{% if states.switch.wemo %}false{% else %}true{% endif %}'
     - condition: state
       entity_id: script.restarthawemo
-      state: 'off'
+      state: "off"
   action:
     service: homeassistant.turn_on
-    entity_id: script.restarthawemo
-- alias: 'Stop HA'
+    target:
+      entity_id: script.restarthawemo
+- alias: "Stop HA"
   trigger:
     - platform: state
       entity_id: switch.KillHass
-      state: 'on'
+      to: "on"
   action:
     service: homeassistant.stop
-  - alias: 'Stop restarting HA is WeMo is found'
+  - alias: "Stop restarting HA is WeMo is found"
   trigger:
     platform: template
-    value_template: {% raw %}'{% if states.switch.wemo %}true{% else %}false{% endif %}'{% endraw %}
+    value_template: '{% if states.switch.wemo %}true{% else %}false{% endif %}'
   condition:
     condition: state
     entity_id: script.restarthawemo
-    state: 'on'
+    state: "on"
   action:
     service: homeassistant.turn_off
-    entity_id: script.restarthawemo
+    target:
+      entity_id: script.restarthawemo
 ```
 
+{% endraw %}

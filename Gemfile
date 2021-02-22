@@ -1,30 +1,34 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
+
+ruby '> 2.5.0'
 
 group :development do
-  gem 'rake', '~> 10.0'
-  gem 'jekyll', '~> 3.0'
-  gem 'pygments.rb', '~> 0.6.3'
-  gem 'rdiscount', '~> 2.0'
-  gem 'RedCloth', '~> 4.2'
-  gem 'haml', '~> 4.0'
-  gem 'compass', '~> 0.12'
-  gem 'sass-globbing', '~> 1.0'
-  gem 'rubypants', '~> 0.2'
-  gem 'rb-fsevent', '~> 0.9'
-  gem 'stringex', '~> 1.4'
-  gem 'execjs'
-  gem 'therubyracer', :platforms => :ruby
-  gem 'coderay'
-  gem 'pry'
+  gem 'rake', '13.0.3'
+  gem 'jekyll', '4.2.0'
+  gem 'compass', '1.0.3'
+  gem 'sass-globbing', '1.1.5'
+  gem 'stringex', '2.8.5'
+  # > 2.1.0 causes slowdowns https://github.com/sass/sassc-ruby/issues/189
+  gem 'sassc', '2.1.0'
 end
 
 group :jekyll_plugins do
-  gem 'jekyll-paginate'
-  gem 'jekyll-sitemap'
-  gem 'jekyll-time-to-read'
-  gem 'octopress', '~> 3.0'
-  gem 'octopress-filters'
-  gem 'octopress-include-tag'
+  gem 'jekyll-paginate', '1.1.0'
+  gem 'jekyll-sitemap', '1.4.0'
+  gem 'jekyll-time-to-read', '0.1.2'
+  gem 'jekyll-commonmark', '1.3.1'
+  gem 'jekyll-toc', '0.17.0'
 end
 
-gem 'sinatra', '~> 1.4.2'
+gem 'sinatra', '2.1.0'
+gem 'nokogiri', '1.11.1'
+
+# Windows and JRuby does not include zoneinfo files, so bundle the tzinfo-data gem
+# and associated library
+install_if -> { RUBY_PLATFORM =~ %r!mingw|mswin|java! } do
+  gem 'tzinfo', '~> 2.0'
+  gem 'tzinfo-data'
+end
+
+# Performance-booster for watching directories on Windows
+gem "wdm", "~> 0.1.0" if Gem.win_platform?

@@ -1,12 +1,10 @@
 ---
-layout: post
 title: "Hello PushBullet, nice talking to you"
 description: "Introducing the new notify component and PushBullet platform"
 date: 2015-01-04 13:29:07 -0800
 date_formatted: January 4, 2015
 author: Paulus Schoutsen
 author_twitter: balloob
-comments: true
 categories: Release-Notes
 ---
 
@@ -15,7 +13,7 @@ One of the things that was missing in Home Assistant for a while was a way to co
 The new notify component will take in messages and tells them to the user. For now this will be powered by the very awesome [PushBullet](https://www.pushbullet.com/) but any other messaging platform can be easily added.
 
 <p class='img'>
-  <img src='{{site_root}}/images/screenshots/pushbullet_moto360.png' />
+  <img src='/images/screenshots/pushbullet_moto360.png' />
   A message triggered by the simple_alarm component is shown by PushBullet on the Moto360.
 </p>
 
@@ -33,7 +31,7 @@ platform=pushbullet
 api_key=ABCDEFGHJKLMNOPQRSTUVXYZ
 ```
 
-You can get your api key from [your account page on PushBullet.com](https://www.pushbullet.com/account).
+You can get your api key from [your account page on PushBullet.com](https://www.pushbullet.com/#settings/account).
 
 ### Sending messages from your component
 
